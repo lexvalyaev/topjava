@@ -1,6 +1,3 @@
-        return "UserMealWithExceed{" +
-                "id=" + id +
-                ", dateTime=" + dateTime +
 package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
@@ -50,5 +47,16 @@ public class UserMealWithExceed {
 
     public boolean isExceed() {
         return exceed;
+    }
+
+    @Override
+    public String toString() {
+        return "UserMealWithExceed{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                ", exceed=" + exceed +
+                '}';
     }
 }
