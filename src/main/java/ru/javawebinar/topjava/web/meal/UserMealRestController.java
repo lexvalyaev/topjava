@@ -6,6 +6,8 @@ import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.service.UserMealService;
 
+import java.util.Collection;
+
 /**
  * GKislin
  * 06.03.2015.
@@ -16,7 +18,12 @@ public class UserMealRestController {
     private UserMealService service;
 
 
+    public Collection<UserMeal> getAll (int userID)
+    {
+        int userId = LoggedUser.id();
+        return service.getByUser(userId);
 
+    }
 
     public UserMeal create(UserMeal userMeal) {
         int userId = LoggedUser.id();
