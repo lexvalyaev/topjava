@@ -4,7 +4,6 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * GKislin
@@ -18,7 +17,7 @@ public interface UserMealService {
 
     UserMeal get(int id, int userId) throws NotFoundException;
 
-    List<UserMeal> getByUser(int userId);
+    Collection<UserMeal> getByUser(int userId);
 
     void update(UserMeal userMeal, int userId);
 

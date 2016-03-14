@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,8 +39,8 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     @Override
-    public List<UserMeal> getByUser(int userId) {
-        return (List<UserMeal>) repository.getAll(userId);
+    public Collection<UserMeal> getByUser(int userId) {
+        return repository.getAll(userId);
     }
 
     @Override

@@ -67,7 +67,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     public Collection<UserMeal> getAll(int userID) {
 
         Map<Integer,UserMeal>   mealRep =  repository.get(userID);
-        return new ArrayList<>(mealRep.values());
+        return mealRep.values();
     }
 
 

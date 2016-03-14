@@ -10,7 +10,6 @@ import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.mock.InMemoryUserMealRepositoryImpl;
 import ru.javawebinar.topjava.repository.UserMealRepository;
-import ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 import ru.javawebinar.topjava.web.meal.UserMealRestController;
 import javax.servlet.ServletConfig;
@@ -32,15 +31,15 @@ public class MealServlet extends HttpServlet {
 
     @Autowired
     private UserMealRestController controller;
-    @Autowired
-    private UserMealRepository repository;
+    /*@Autowired
+    private UserMealRepository repository;*/
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
             controller = appCtx.getBean(UserMealRestController.class);
-            repository = appCtx.getBean(InMemoryUserMealRepositoryImpl.class);
+           // repository = appCtx.getBean(InMemoryUserMealRepositoryImpl.class);
         }
     }
 
