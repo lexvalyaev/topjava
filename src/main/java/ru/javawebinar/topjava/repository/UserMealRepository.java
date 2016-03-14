@@ -14,7 +14,7 @@ public interface UserMealRepository {
 
     UserMeal save(UserMeal userMeal, int userID);
 
-    void delete(int id, int userID);
+    boolean delete(int id, int userID);
 
     UserMeal get(int id, int userID);
 
