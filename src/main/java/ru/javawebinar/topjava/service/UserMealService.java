@@ -2,8 +2,11 @@ package ru.javawebinar.topjava.service;
 
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import sun.util.resources.cldr.vai.LocaleNames_vai;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * GKislin
@@ -17,10 +20,11 @@ public interface UserMealService {
 
     UserMeal get(int id, int userId) throws NotFoundException;
 
-    Collection<UserMeal> getByUser(int userId);
+    List<UserMeal> getAll(int userId);
 
     void update(UserMeal userMeal, int userId);
 
+    List<UserMeal> getBeetwen(LocalDateTime startTime, LocalDateTime endTime, int userId);
 
 
 }
