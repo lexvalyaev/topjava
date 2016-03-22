@@ -30,4 +30,6 @@ CREATE TABLE meals (
   description TEXT,
   calories    INT,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+
 );
+CREATE INDEX idx_datetime ON meals (datetime);
