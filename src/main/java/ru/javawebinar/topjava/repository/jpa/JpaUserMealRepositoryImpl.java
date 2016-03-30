@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.jpa;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
@@ -27,24 +28,22 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
     @Override
     @Transactional
     public UserMeal save(UserMeal userMeal, int userId) {
-
-       if (userMeal.isNew())
-        {   userMeal.setUser(em.getReference(User.class,userId));
+        User user = em.getReference(User.class, userId);
+        userMeal.setUser(user);
+        if (userMeal.isNew()) {
             em.persist(userMeal);
-            return userMeal;
-        }
-        else
-        {
-            if(em.createNamedQuery(UserMeal.UPDATE)
-                    .setParameter("calories",userMeal.getCalories())
-                    .setParameter("datetime",userMeal.getDateTime())
-                    .setParameter("description",userMeal.getDescription())
-                    .setParameter("userId",userMeal.getUser().getId())
-                    .executeUpdate()==0
-                    )return null;
+        } else {
+            if (em.createNamedQuery(UserMeal.UPDATE)
+                    .setParameter("datetime", userMeal.getDateTime())
+                    .setParameter("description", userMeal.getDescription())
+                    .setParameter("calories", userMeal.getCalories())
+                    .setParameter("id", userMeal.getId())
+                    .setParameter("userId", userId).executeUpdate() == 0) {
+                return null;
+            }
         }
         return userMeal;
-      }
+    }
 
     @Override
     @Transactional
@@ -55,17 +54,17 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
                    .executeUpdate()!=0;
     }
 
+
+
+
     @Override
     public UserMeal get(int id, int userId) {
-        return (UserMeal) em.createNamedQuery(UserMeal.GET)
-                .setParameter("id",id)
-                .setParameter("userId",id)
-                .getSingleResult();
+        return em.find(UserMeal.class,id);
     }
 
     @Override
     public List<UserMeal> getAll(int userId) {
-            return em.createNamedQuery(UserMeal.GET_ALL)
+            return em.createNamedQuery(UserMeal.GET_ALL,UserMeal.class)
                     .setParameter("userId",userId)
                     .getResultList();
 
@@ -73,7 +72,7 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return em.createNamedQuery(UserMeal.GET_BETWEEN_DATETIME)
+        return em.createNamedQuery(UserMeal.GET_BETWEEN_DATETIME,UserMeal.class)
                 .setParameter("userId",userId)
                 .setParameter("startDateTime",startDate)
                 .setParameter("endDateTime",endDate)

@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -10,7 +12,6 @@ import java.time.LocalDateTime;
  * 11.01.2015.
  */
 @Entity
-@Table (name = "meals")
 @NamedQueries({
         @NamedQuery(name = UserMeal.DELETE, query = "DELETE FROM UserMeal um WHERE um.id=:id AND um.user.id=:userId"),
         @NamedQuery(name = UserMeal.GET, query = "SELECT um FROM UserMeal um WHERE um.id=:id AND um.user.id=:userId"),
@@ -19,11 +20,12 @@ import java.time.LocalDateTime;
                 "WHERE um.user.id=:userId AND um.dateTime BETWEEN :startDateTime AND :endDateTime " +
                 "ORDER BY um.dateTime DESC"),
         @NamedQuery(name = UserMeal.UPDATE, query = "UPDATE UserMeal um " +
-                "SET um.description=:description, um.dateTime=:darerime,um.calories=:calories " +
+                "SET um.description=:description, um.dateTime=:datetime,um.calories=:calories " +
                 "WHERE um.id =:id AND um.user.id=:userId")
 
 
 })
+@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")})
 public class UserMeal extends BaseEntity {
 
     public static final String DELETE = "UserMeal.delete";
@@ -32,8 +34,20 @@ public class UserMeal extends BaseEntity {
     public static final String GET = "UserMeal.get";
     public static final String UPDATE = "UserMeal.update";
 
-    @Column(name="datetime")
-    @NotEmpty
+    @Converter(autoApply = true)
+    public static class LocalDateTimePersistenceConverter implements AttributeConverter<LocalDateTime, Timestamp> {
+        @Override
+        public Timestamp convertToDatabaseColumn(LocalDateTime localDateTime) {
+            return (localDateTime == null ? null : Timestamp.valueOf(localDateTime));
+        }
+
+        @Override
+        public LocalDateTime convertToEntityAttribute(Timestamp timeStamp) {
+            return (timeStamp == null ? null : timeStamp.toLocalDateTime());
+        }
+    }
+
+    @Column(name = "date_time", columnDefinition = "timestamp default now()")
     private LocalDateTime dateTime;
 
     @Column(name="description")
@@ -41,7 +55,7 @@ public class UserMeal extends BaseEntity {
     private String description;
 
     @Column(name="calories")
-    @NotEmpty
+    @Digits(integer = 4, fraction = 0)
     protected int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
