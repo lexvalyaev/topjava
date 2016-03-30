@@ -33,7 +33,7 @@ public class UserMeal extends BaseEntity {
     public static final String GET_BETWEEN_DATETIME = "UserMeal.getBetween";
     public static final String GET = "UserMeal.get";
     public static final String UPDATE = "UserMeal.update";
-
+/*
     @Converter(autoApply = true)
     public static class LocalDateTimePersistenceConverter implements AttributeConverter<LocalDateTime, Timestamp> {
         @Override
@@ -45,9 +45,9 @@ public class UserMeal extends BaseEntity {
         public LocalDateTime convertToEntityAttribute(Timestamp timeStamp) {
             return (timeStamp == null ? null : timeStamp.toLocalDateTime());
         }
-    }
+    }*/
 
-    @Column(name = "date_time", columnDefinition = "timestamp default now()")
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @Column(name="description")
