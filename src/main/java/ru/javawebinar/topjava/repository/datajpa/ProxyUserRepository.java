@@ -28,6 +28,7 @@ public interface ProxyUserRepository extends JpaRepository<User, Integer> {
     User save(User user);
 
     @Override
+    @Query
     User findOne(Integer id);
 
     @Override
