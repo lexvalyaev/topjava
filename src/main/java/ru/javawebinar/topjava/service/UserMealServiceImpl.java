@@ -2,8 +2,11 @@ package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
+import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,9 @@ public class UserMealServiceImpl implements UserMealService {
 
     @Autowired
     private UserMealRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public UserMeal get(int id, int userId) {
@@ -45,7 +51,15 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     @Override
+    @Transactional
     public UserMeal save(UserMeal meal, int userId) {
         return repository.save(meal, userId);
     }
+
+    public UserMeal getWithUser(int id, int userId) {
+        UserMeal meal = repository.get(id, userId);
+        meal.setUser(userRepository.get(id));
+        return meal;
+    }
+
 }
