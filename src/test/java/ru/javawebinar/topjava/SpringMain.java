@@ -23,7 +23,7 @@ public class SpringMain {
         // java 7 Automatic resource management
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext ()) {
             ConfigurableEnvironment env = appCtx.getEnvironment();
-            env.setActiveProfiles(Profiles.POSTGRES,Profiles.DATAJPA);
+            env.setActiveProfiles(Profiles.HSQLDB,Profiles.DATAJPA);
             appCtx.load("spring/spring-app.xml","spring/spring-db.xml");
             appCtx.refresh();
 

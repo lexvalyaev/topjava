@@ -56,6 +56,7 @@ public class UserMealServiceImpl implements UserMealService {
         return repository.save(meal, userId);
     }
 
+    @Transactional
     public UserMeal getWithUser(int id, int userId) {
         UserMeal meal = repository.get(id, userId);
         meal.setUser(userRepository.get(id));
