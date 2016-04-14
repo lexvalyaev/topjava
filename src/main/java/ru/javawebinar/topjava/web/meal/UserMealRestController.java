@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.service.UserMealService;
@@ -20,51 +22,35 @@ import java.util.List;
  * 06.03.2015.
  */
 @Controller
-public class UserMealRestController {
-    private static final Logger LOG = LoggerFactory.getLogger(UserMealRestController.class);
+public class UserMealRestController extends AbstractUserMealController {
 
-    @Autowired
-    private UserMealService service;
-
-    public UserMeal get(int id) {
-        int userId = LoggedUser.id();
-        LOG.info("get meal {} for User {}", id, userId);
-        return service.get(id, userId);
+    @Override
+    public String getAll(Model model) {
+        return super.getAll(model);
     }
 
-    public void delete(int id) {
-        int userId = LoggedUser.id();
-        LOG.info("delete meal {} for User {}", id, userId);
-        service.delete(id, userId);
+    @Override
+    public String delete(int id) {
+        return super.delete(id);
     }
 
-    public List<UserMealWithExceed> getAll() {
-        int userId = LoggedUser.id();
-        LOG.info("getAll for User {}", userId);
-        return UserMealsUtil.getWithExceeded(service.getAll(userId), LoggedUser.getCaloriesPerDay());
+    @Override
+    public String goToUpdate(int id, Model model) {
+        return super.goToUpdate(id, model);
     }
 
-    public void update(UserMeal meal, int id) {
-        meal.setId(id);
-        int userId = LoggedUser.id();
-        LOG.info("update {} for User {}", meal, userId);
-        service.update(meal, userId);
+    @Override
+    public String goToCreate(Model model) {
+        return super.goToCreate(model);
     }
 
-    public UserMeal create(UserMeal meal) {
-        meal.setId(null);
-        int userId = LoggedUser.id();
-        LOG.info("create {} for User {}", meal, userId);
-        return service.save(meal, userId);
+    @Override
+    public String updateOrCreate(@RequestParam(defaultValue = "0") int id, String dateTime, String description, int calories) {
+        return super.updateOrCreate(id, dateTime, description, calories);
     }
 
-    public List<UserMealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        int userId = LoggedUser.id();
-        LOG.info("getBetween dates {} - {} for time {} - {} for User {}", startDate, endDate, startTime, endTime, userId);
-        return UserMealsUtil.getFilteredWithExceeded(
-                service.getBetweenDates(
-                        startDate != null ? startDate : TimeUtil.MIN_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, userId),
-                        startTime != null ? startTime : LocalTime.MIN, endTime != null ? endTime : LocalTime.MAX, LoggedUser.getCaloriesPerDay()
-        );
+    @Override
+    public String getBetween(String startDate, String endDate, String startTime, String endTime, Model model) {
+        return super.getBetween(startDate, endDate, startTime, endTime, model);
     }
 }
