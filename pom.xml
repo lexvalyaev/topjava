@@ -18,6 +18,8 @@
 
         <spring-data-jpa.version>1.9.4.RELEASE</spring-data-jpa.version>
         <spring.version>4.2.5.RELEASE</spring.version>
+        <spring-security.version>4.0.4.RELEASE</spring-security.version>
+
         <tomcat.version>7.0.57</tomcat.version>
 
         <!-- Logging -->
@@ -149,6 +151,18 @@
             </exclusions>
         </dependency>
 
+        <!--security-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
         <!-- Webjars (static dependencies distributed as JAR files) -->
         <dependency>
             <groupId>org.webjars</groupId>
@@ -228,11 +242,6 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.2</version>
         </dependency>
 
         <dependency>
